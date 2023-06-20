@@ -1,20 +1,34 @@
-# importing the modules
-import PyPDF2
-import pyttsx3
+import PyPDF4
+from gtts import *
 
 # path of the PDF file
-path = open('dive-into-design-patterns-fr-demo.pdf', 'rb')
+path = open('sample.pdf', 'rb')
 
 # creating a PdfReader object
-pdfReader = PyPDF2.PdfReader(path)
+pdfReader = PyPDF4.PdfFileReader(path)
 
-# the page with which you want to start
-from_page = pdfReader.pages[2]
+count = len(pdfReader.pages)  # counts number of pages in pdf file
+text_list = []  # list to store text from pdf file
 
-# extracting the text from the PDF
-text = from_page.extract_text()
+# extracting text from each page of pdf file
+for i in range(count):
+    try:
+        page = pdfReader.getPage(i)
+        text_list.append(page.extractText())
+    except:
+        pass
 
-# reading the text
-speak = pyttsx3.init()
-speak.say(text)
-speak.runAndWait()
+text = "\n".join(text_list)  # combining all text from text_list into one string
+print(text)
+
+# Set language
+language = 'en'
+
+try:
+    # Call gTTS
+    audio = gTTS(text=text, lang=language, slow=False)
+
+    # Save as mp3 file
+    audio.save("audio.mp3")
+except:
+    pass
