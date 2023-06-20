@@ -1,9 +1,6 @@
 # importing the modules
 import PyPDF2
 import pyttsx3
-from resemble import Resemble
-
-Resemble.api_key('YOUR_API_TOKEN')
 
 # path of the PDF file
 path = open('dive-into-design-patterns-fr-demo.pdf', 'rb')
